@@ -1,0 +1,158 @@
+package Task;
+
+import java.util.Scanner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import javax.swing.JOptionPane;
+
+public class java {
+    
+    private String Name_;
+    private String Surname_;
+    private String Username_Reg;
+    private String Password_Reg;
+    private String Username_Login;
+    private String Password_Login;
+    boolean flag;
+    boolean flag1;
+    boolean flag2;
+    String regex = "^(?=.*[0-9])(?=.*[a-z]) (?=.*[A-Z]) (?.*[!@#&()-[{}]:;',?/*~$^+=<>]).{8,}$";
+    private final Pattern pattern=Pattern.compile(regex);
+    
+    Scanner sc=new Scanner(System.in);
+    
+    public String getName_() {
+        return Name_;
+    }
+    
+    public void setName_(String Name_) {
+        this.Name_ =Name_;
+    }
+    
+    public String getSurname(){
+        return Surname_;
+    }
+    
+    public void setSurname_(String Surname){
+        this.Surname_=Surname;
+    }
+    
+    public String getUsername_Reg() {
+        return Username_Reg;
+    }
+    
+    public void setUsername_Reg(String Username_Reg){
+        this.Username_Reg =Username_Reg;
+    }
+    public String getPassword_Reg(){
+        return Password_Reg;
+    } 
+    public void setPassword_Reg(String Password_Reg){
+        this.Password_Reg = Password_Reg;
+    }
+    
+    public String getUsername_Login() {
+        return Username_Login;
+    }
+    
+    public void setUsername_Login(String Username_Login) {
+        this.Username_Login=Username_Login;
+    }
+    
+    public String getPassword_Login(){
+        return Password_Login;
+    }
+    
+    public void setPassword_Login(String Password_Login) {
+        this.Password_Login=Password_Login;
+    }
+   
+//method 1
+public boolean checkUserName(String Username_Reg) {
+    
+    flag1 =(Username_Reg.contains("")) && (Username_Reg.length()<6);
+    
+    return flag1;
+   }
+//end of Username check
+
+//method 2
+public boolean checkPasswordComplexity(String Password_Reg) {
+    
+    Matcher matcher = pattern.matcher(Password_Reg);
+    
+    flag1 = matcher.matches();
+    
+    return flag1;
+}
+//end of PasswordComplexity
+
+//METHOD 3
+public void registerUser(){
+    label_1: {
+        while (Password_Reg !=null){
+            break label_1;
+        }
+   if(Username_Reg!=null){
+       //username section
+       while(!checkUserName(Username_Reg)) {
+           System.out.println("Username is not correctly formatted,"
+                   +"please ensure that your username contains an underscore and is no more than 5 characters in length.");
+          System.out.println("Please enter a username that meets these conditions>>");
+          Username_Reg = sc.next();
+       }//endwhile
+       
+       if (checkUserName(Username_Reg)) {
+           System.out.println("Username succesfully captured");
+       }
+   }
+    }   
+    if(Password_Reg==null) {
+        return;
+    }
+    
+    //Password section
+    Matcher matcher =pattern.matcher(Password_Reg);
+    
+    while (!checkPasswordComplexity(Password_Reg)){
+    System.out.println("Password is not correctly formatted,"
+            +"please ensure that the password contains at least 8 characters,a capital letter/a number and a special character.");
+    System.out.println("Please enter a password that meets the conditions>>");
+            Password_Reg = sc.next();
+            matcher=pattern.matcher(Password_Reg); 
+    }
+    
+    if(checkPasswordComplexity(Password_Reg)) {
+        System.out.println("Password succesfully captured");
+        System.out.println("\nCongratulations! You have registered your account");
+    }
+//end of register user()
+
+//method 4
+  public boolean LoginUser(){
+
+flag2=Password_Login.equals(Password_Reg)&& Username_Login.equals(Username_Reg);
+
+return flag2;
+}
+//end of login user
+
+//method 5
+public void returnLoginStatus(){
+    
+    while (!LoginUser()){
+        System.out.println("\nUsername or password incorrect,please try again.");
+        System.out.print("Please re-enter your username>>");
+        Username_Login =sc.next();
+        System.out.println("Please re-enter your password>>");
+        Password_Login =sc.next();
+    }//endwhile
+
+if(LoginUser()){
+    
+    System.out.println("\nWelcome" + Name_ +" " + Surname_+ "! It is great to see you again.");
+    
+    }//endif
+}
+//end of method 5
+
